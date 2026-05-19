@@ -387,6 +387,91 @@ The script keeps the first occurrence and skips subsequent ones. If you need to 
 
 ---
 
+## Step 6 — Publish to GitHub
+
+Once your output files are ready, you can publish the script and guide to GitHub for version control, sharing, and reuse across machines.
+
+### Prerequisites
+
+- A GitHub account (github.com)
+- Git installed — verify with `git --version` (macOS includes Git by default)
+- A Personal Access Token for authentication (see below)
+
+### 6.1 — Create a new repository on GitHub
+
+Go to github.com → click the green **New** button → name it (e.g. `trados-termbase-converter`) → add a description → leave it completely empty (no README, no .gitignore) → click **Create repository**.
+
+### 6.2 — Set up your local folder
+
+Create the project folder inside your existing Projects directory:
+
+```bash
+mkdir ~/Projects/trados-termbase-converter
+cd ~/Projects/trados-termbase-converter
+```
+
+Copy your files into the folder:
+- `termbase_to_markdown.py`
+- `Trados_Termbase_to_Markdown_Guide.md`
+
+Then create a README (GitHub renders this automatically as the repo front page):
+
+```bash
+cp Trados_Termbase_to_Markdown_Guide.md README.md
+```
+
+### 6.3 — Add a .gitignore
+
+This prevents macOS system files from being accidentally committed:
+
+```bash
+echo ".DS_Store" > .gitignore
+```
+
+### 6.4 — Initialise, commit, and push
+
+```bash
+git init
+git add .
+git commit -m "Initial commit: termbase converter script and guide"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/trados-termbase-converter.git
+git push --set-upstream origin main
+```
+
+Replace `YOUR_USERNAME` with your GitHub username.
+
+### 6.5 — Authenticate with a Personal Access Token
+
+When Git asks for a password, do not type your GitHub password — paste a Personal Access Token instead.
+
+To generate one: GitHub → avatar menu → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)** → **Generate new token (classic)** → add a description (e.g. `MacBook Pro - VS Code Git access`) → set expiration → tick the **repo** checkbox → click **Generate token** → copy it immediately (it only shows once).
+
+Paste the token as your password when prompted.
+
+### 6.6 — Pushing future updates
+
+Whenever you update a file, run:
+
+```bash
+cd ~/Projects/trados-termbase-converter
+git add .
+git commit -m "Describe what you changed"
+git push
+```
+
+### Key decisions for GitHub
+
+**Always quote folder paths that contain spaces** — use `"Trados Termbases"` not `Trados\ Termbases`.
+
+**Keep .gitignore in the repo** — macOS generates `.DS_Store` files automatically in every folder. The `.gitignore` prevents them from appearing in your commit history.
+
+**Use the same Personal Access Token across repos** — one token works for all your GitHub repositories on the same machine. Store it in a password manager so you don't need to regenerate it.
+
+**README.md renders automatically** — whatever is in `README.md` appears as the front page of your repository. Keeping it in sync with your guide means the repo is self-documenting.
+
+---
+
 ## Quick Reference
 
 | Goal | Command |
@@ -396,6 +481,11 @@ The script keeps the first occurrence and skips subsequent ones. If you need to 
 | Convert folder, one file per termbase | `python3 termbase_to_markdown.py "folder/" --outdir ~/Desktop/Glossaries` |
 | Convert folder, merge all into one file | `python3 termbase_to_markdown.py "folder/" --merge --outdir ~/Desktop/Glossaries` |
 | Preview markdown in VS Code | `Cmd+Shift+V` (macOS) / `Ctrl+Shift+V` (Windows) |
+| Initialise a new Git repo | `git init` |
+| Stage all files | `git add .` |
+| Commit staged files | `git commit -m "Your message"` |
+| Push to GitHub (first time) | `git push --set-upstream origin main` |
+| Push to GitHub (subsequent) | `git push` |
 
 ---
 
